@@ -2,7 +2,6 @@ Sourcehawk Scan Github Action
 -----------------------------
 
 ![Latest Version](https://img.shields.io/github/v/tag/optum/sourcehawk-scan-github-action?label=version&sort=semver) 
-![License](https://img.shields.io/github/license/optum/sourcehawk-scan-github-action)
 
 This action runs a `sourcehawk` scan on the repository source code.
 
