@@ -1,31 +1,96 @@
-# Welcome to your new OSS project
+Sourcehawk Scan Github Action
+-----------------------------
 
-This project currently has the base documentation files required.  Replace this
-file with your own README.md.
+This action runs a `sourcehawk` scan on the repository source code.
 
-## Files included
+## Inputs
 
-**CODE_OF_CONDUCT.md**
+### `repository-root`
 
-Use without changes
+The root of the source code to scan
 
-**INDIVIDUAL_CONTRIBUTOR_LICENSE.md**
+**Default**: `.` (root of the repository)
 
-Use without changes
+### `config-file`
 
-**CONTRIBUTING.md**
+The configuration file path (relative path, absolute path, or even URL)
 
-This file has some portions that are required and others that can be customized.
-Customize the Coding Standards section to mention the languages used by your project.
-Feel free to add any rules and requirements that you would like people to follow
-when contributing to your project.
+**Default**: `sourcehawk.yml`
 
-**NOTICE.txt**
+### `output-format`
 
-This file is needed if your project is licensed under the Apache 2.0 license.  
-If you are using this license, fill it out according to the prompts.  Otherwise,
-delete this file.
+The output format of the scan
 
-## Additional Repo Updates
+**Default**: `TEXT`
 
-Make sure that you have a project description and appropriate repository topics.
+**Valid Values**: `TEXT`, `JSON`, `MARKDOWN`
+
+### `output-file`
+
+The configuration file path
+
+**Default**: `sourcehawk-scan-results.txt`
+
+## Outputs
+
+### `scan-passed`
+
+Boolean value determining if the scan has passed - `true` if the passed, `false` otherwise
+
+## Example usage
+
+### Basic
+The below example accepts all the defaults
+
+```yaml
+uses: Optum/sourcehawk-scan-github-action@v1
+```
+
+### Custom Configuration File
+Provide the location to a configuration file in a custom path
+
+```yaml
+uses: Optum/sourcehawk-scan-github-action@v1
+  config-file: .sourcehawk/config.yml
+```
+
+### JSON Output Format
+Output the scan results in `JSON` format
+
+```yaml
+uses: Optum/sourcehawk-scan-github-action@v1
+  output-format: JSON
+  output-file: sourcehawk-scan-results.json
+```
+
+## Example Workflow
+Below is an example workflow to run a scan on pull requests.  The workflow checks out the source code, runs the scan, 
+prints that the scan passed if it was successful, and then archives the scan results file.
+
+```yaml
+name: Build
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run Sourcehawk Scan
+        id: sourcehawk
+        uses: Optum/sourcehawk-scan-github-action@v1
+        with:
+          output-format: JSON
+          output-file: sourcehawk-scan-results.json
+      - name: Run Sourcehawk Scan
+        if: steps.sourcehawk.outputs.scan-passed == 'true'
+        run: echo "Sourcehawk scan passed!"
+      - name: Upload Scan Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: sourcehawk
+          path: sourcehawk-scan-results.json
+```

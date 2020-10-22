@@ -1,0 +1,36 @@
+name: 'Sourcehawk Scan'
+description: 'Run a sourcehawk scan on the code base'
+inputs:
+  repository-root:
+    description: 'Repository Root'
+    required: false
+    default: '.'
+  config-file:
+    description: 'Configuration File'
+    required: false
+    default: 'sourcehawk.yml'
+  output-format:
+    description: 'Output format'
+    required: false
+    default: 'TEXT'
+  output-file:
+    description: 'Output file to write results to'
+    required: false
+    default: 'sourcehawk-scan-results.txt'
+  fail-build:
+    description: 'Whether or not to fail the build on scan failure'
+    required: false
+    default: 'false'
+outputs:
+  scan-passed:
+    description: '"true" if scan passed, "false" otherwise'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.repository-root }}
+    - ${{ inputs.config-file }}
+    - ${{ inputs.output-format }}
+    - ${{ inputs.output-file }}
+    - ${{ inputs.fail-build }}
+

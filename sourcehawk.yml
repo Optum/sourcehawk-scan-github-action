@@ -1,0 +1,4 @@
+api-version: 0.1
+
+config-locations:
+  - https://github.com/raw/optum/sourcehawk-parent/master/.sourcehawk/config.yml
