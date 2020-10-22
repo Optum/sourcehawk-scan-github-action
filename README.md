@@ -1,6 +1,9 @@
 Sourcehawk Scan Github Action
 -----------------------------
 
+![Latest Version](https://img.shields.io/github/v/tag/optum/sourcehawk-scan-github-action?label=version&sort=semver) 
+![License](https://img.shields.io/github/license/optum/sourcehawk-scan-github-action)
+
 This action runs a `sourcehawk` scan on the repository source code.
 
 ## Inputs
@@ -43,14 +46,14 @@ Boolean value determining if the scan has passed - `true` if the passed, `false`
 The below example accepts all the defaults
 
 ```yaml
-uses: Optum/sourcehawk-scan-github-action@v1
+uses: optum/sourcehawk-scan-github-action@v1
 ```
 
 ### Custom Configuration File
 Provide the location to a configuration file in a custom path
 
 ```yaml
-uses: Optum/sourcehawk-scan-github-action@v1
+uses: optum/sourcehawk-scan-github-action@v1
   config-file: .sourcehawk/config.yml
 ```
 
@@ -58,7 +61,7 @@ uses: Optum/sourcehawk-scan-github-action@v1
 Output the scan results in `JSON` format
 
 ```yaml
-uses: Optum/sourcehawk-scan-github-action@v1
+uses: optum/sourcehawk-scan-github-action@v1
   output-format: JSON
   output-file: sourcehawk-scan-results.json
 ```
@@ -81,11 +84,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Run Sourcehawk Scan
         id: sourcehawk
-        uses: Optum/sourcehawk-scan-github-action@v1
+        uses: pptum/sourcehawk-scan-github-action@v1
         with:
           output-format: JSON
           output-file: sourcehawk-scan-results.json
-      - name: Run Sourcehawk Scan
+      - name: Determine Sourcehawk Scan Results
         if: steps.sourcehawk.outputs.scan-passed == 'true'
         run: echo "Sourcehawk scan passed!"
       - name: Upload Scan Results
