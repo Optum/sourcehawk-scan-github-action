@@ -1,5 +1,20 @@
 #!/bin/sh -l
 
+########################################################################################################3
+#
+# Docker Entrypoint to run github action .  Script arguments are in the order specified in inputs of
+# the "action.yml" file
+#
+# The "sourcehawk" command is available through the "Dockerfile" base image
+#
+# Outputs
+# -------
+# "scan-passed": true / false
+#
+# @author Brian Wyka
+#
+########################################################################################################3
+
 # Action Inputs
 REPOSITORY_ROOT=${1:-'.'}
 CONFIG_FILE=${2:-'sourcehawk.yml'}
