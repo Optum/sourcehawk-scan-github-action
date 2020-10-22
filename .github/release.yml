@@ -1,0 +1,50 @@
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Github Ref'
+        required: false
+        default: 'main'
+      draft:
+        description: 'Is the release a draft?'
+        required: false
+        default: 'true'
+      prerelease:
+        description: 'Is this a pre-release?'
+        required: false
+        default: 'true'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      - name: Tag
+        if: success()
+        run: git tag -a "v$RELEASE_VERSION" -m "Release v$RELEASE_VERSION triggered by @$GITHUB_ACTOR" && git push origin --tags
+        env:
+          RELEASE_VERSION: ${{ steps.setup.outputs.RELEASE_VERSION }}
+      - name: Generate Changelog
+        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          output: CHANGELOG.md
+          usernamesAsGithubLogins: true
+          stripGeneratorNotice: true
+      - name: Create Release
+        if: success()
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ format('v{0}', steps.setup.outputs.RELEASE_VERSION) }}
+          release_name: ${{ format({0} v{1}', github.event.repository.name, steps.setup.outputs.RELEASE_VERSION) }}
+          body_path: CHANGELOG.md
+          draft: ${{ github.event.inputs.draft }}
+          prerelease: ${{ github.event.inputs.prerelease }}
