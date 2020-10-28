@@ -49,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ format('v{0}', steps.setup.outputs.RELEASE_VERSION) }}
-          release_name: ${{ format('{0}@v{1}', github.repository_name, github.event.inputs.version) }}
+          release_name: ${{ format('{0}@v{1}', github.repository, github.event.inputs.version) }}
           body_path: CHANGELOG.md
           draft: true
           prerelease: false

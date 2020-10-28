@@ -25,14 +25,14 @@ FAIL_BUILD=${5:-false}
 # Run the scan and output the results
 sourcehawk scan --verbosity MEDIUM --config-file "$CONFIG_FILE" --output-format "$OUTPUT_FORMAT" "$REPOSITORY_ROOT" > "$OUTPUT_FILE"
 
-# Show the scan results
-cat "$OUTPUT_FILE"
-
 # Determine if scan passed
 PASSED=false
 if [ $? -eq 0 ]; then
   PASSED=true
 fi
+
+# Show the scan results
+cat "$OUTPUT_FILE"
 
 # Capture exit code
 echo "::set-output name=scan-passed::$PASSED"
