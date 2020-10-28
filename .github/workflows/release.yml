@@ -6,14 +6,9 @@ on:
         description: 'Github Ref'
         required: false
         default: 'main'
-      draft:
-        description: 'Is the release a draft?'
-        required: false
-        default: 'true'
-      prerelease:
-        description: 'Is this a pre-release?'
-        required: false
-        default: 'true'
+      version:
+        description: 'Version (without "v" prefix)'
+        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,7 +27,7 @@ jobs:
         if: success()
         run: git tag -a "v$RELEASE_VERSION" -m "Release v$RELEASE_VERSION triggered by @$GITHUB_ACTOR" && git push origin --tags
         env:
-          RELEASE_VERSION: ${{ steps.setup.outputs.RELEASE_VERSION }}
+          RELEASE_VERSION: ${{ github.event.inputs.version }}
       - name: Generate Changelog
         uses: heinrichreimer/github-changelog-generator-action@v2.1.1
         with:
