@@ -25,6 +25,9 @@ jobs:
           ref: ${{ github.event.inputs.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
+      - name: Run Tests
+        shell: bash
+        run: ./test.sh
       - name: Tag
         if: success()
         run: git tag -a "v$RELEASE_VERSION" -m "Release v$RELEASE_VERSION triggered by @$GITHUB_ACTOR" && git push origin --tags
