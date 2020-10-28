@@ -33,7 +33,7 @@ jobs:
         env:
           GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
           GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
-          RELEASE_VERSION: ${{ steps.set_maven_project_version.outputs.RELEASE_VERSION }}
+          RELEASE_VERSION: ${{ github.event.inputs.version }}
       - name: Generate Changelog
         if: success()
         uses: heinrichreimer/github-changelog-generator-action@v2.1.1
@@ -49,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ format('v{0}', steps.setup.outputs.RELEASE_VERSION) }}
-          release_name: ${{ format('{0} {1}', github.event.repository.name, github.event.inputs.version) }}
+          release_name: ${{ format('{0}@v{1}', github.repository_name, github.event.inputs.version) }}
           body_path: CHANGELOG.md
           draft: true
           prerelease: false
