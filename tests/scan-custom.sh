@@ -2,15 +2,15 @@
 
 set -e
 
-echo "Running test: Scan Passed"
+echo "Running test: Scan Custom"
 echo "-------------------------"
 
 ROOT="$(dirname "$(dirname "$(readlink -fm "$0")")")"
 
-OUTPUT=$(docker run -v "$ROOT:/github/workspace" sourcehawk-scan-github-action:test "tests/scan-passed")
+OUTPUT=$(docker run -v "$ROOT:/github/workspace" sourcehawk-scan-github-action:test "tests/scan-custom" "sh.yml" "JSON" "sourcehawk-scan-results.json")
 
 FIRST_LINE=$(echo "$OUTPUT" | head -1 | sed -e 's/[[:space:]]*$//')
-EXPECTED="Scan passed without any errors"
+EXPECTED='{"passed":true,"errorCount":0,"warningCount":0,"messages":{},"formattedMessages":[]}'
 if [[ "$FIRST_LINE" = "$EXPECTED" ]]; then
   echo " > SCAN_RESULT_MESSAGE: Correct"
 else
@@ -18,12 +18,10 @@ else
   exit 1
 fi
 
-LAST_LINE=$(echo "$OUTPUT" | tail -1 | sed -e 's/[[:space:]]*$//')
-EXPECTED="::set-output name=scan-passed::true"
-if [[ "$LAST_LINE" = "$EXPECTED" ]]; then
-  echo " > GITHUB_ACTION_OUTPUT: Correct"
+if [[ -f "sourcehawk-scan-results.json" ]]; then
+  echo " > RESULT_FILE: Correct"
 else
-  echo " > GITHUB_ACTION_OUTPUT: Missing scan-passed(true) output"
+  echo " > RESULT_FILE: Missing result file at path: sourcehawk-scan-results.json"
   exit 1
 fi
 

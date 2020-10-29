@@ -1,0 +1,24 @@
+Package: INDIVIDUAL_CONTRIBUTOR_LICENSE.md
+
+License: Newton-King CLA
+
+Copyrights: 
+
+
+License Text: 
+https://github.com/JamesNK/Newtonsoft.Json/blob/ce7f283b94c86341036078ed2f4e241b907b816d/CONTRIBUTING.md
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+Package: INDIVIDUAL_CONTRIBUTOR_LICENSE.md
+
+License: Google Patent License for Go
+
+Copyrights: 
+
+
+License Text: 
+https://golang.org/PATENTS
+
+-------------------------------------------------------------------------------------------------------------------------------
+

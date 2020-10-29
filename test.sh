@@ -9,3 +9,4 @@ set -e
 ./tests/scan-passed.sh
 ./tests/scan-failed.sh
 ./tests/scan-error.sh
+./tests/scan-custom.sh

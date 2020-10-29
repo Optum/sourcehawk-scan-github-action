@@ -1,2 +1,5 @@
 .idea
 *.iml
+sourcehawk-scan-results.txt
+sourcehawk-scan-results.json
+sourcehawk-scan-results.md

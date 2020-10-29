@@ -1,0 +1,4 @@
+
+file-protocols:
+  - name: Foobar
+    repository-path: foo.bar

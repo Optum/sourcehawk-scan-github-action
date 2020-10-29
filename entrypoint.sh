@@ -22,11 +22,12 @@ OUTPUT_FORMAT=${3:-TEXT}
 OUTPUT_FILE=${4:-'sourcehawk-scan-results.txt'}
 FAIL_BUILD=${5:-false}
 
+PASSED=false
+
 # Run the scan and output the results
 sourcehawk scan --verbosity MEDIUM --config-file "$CONFIG_FILE" --output-format "$OUTPUT_FORMAT" "$REPOSITORY_ROOT" > "$OUTPUT_FILE"
 
 # Determine if scan passed
-PASSED=false
 if [ $? -eq 0 ]; then
   PASSED=true
 fi
@@ -34,7 +35,7 @@ fi
 # Show the scan results
 cat "$OUTPUT_FILE"
 
-# Capture exit code
+# Output for github actions
 echo "::set-output name=scan-passed::$PASSED"
 
 # Exit cleanly if scan passes

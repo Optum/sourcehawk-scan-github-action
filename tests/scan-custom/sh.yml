@@ -1,0 +1,4 @@
+
+file-protocols:
+  - name: File
+    repository-path: file.txt

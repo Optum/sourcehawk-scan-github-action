@@ -7,6 +7,7 @@ on:
     paths-ignore:
       - '.github/**'
       - '.gitignore'
+      - 'attribute.txt'
       - 'CODE_OF_CONDUCT.md'
       - 'CONTRIBUTING.md'
       - 'INDIVIDUAL_CONTRIBUTOR_LICENSE.md'
@@ -20,6 +21,7 @@ on:
     paths-ignore:
       - '.github/**'
       - '.gitignore'
+      - 'attribute.txt'
       - 'CODE_OF_CONDUCT.md'
       - 'CONTRIBUTING.md'
       - 'INDIVIDUAL_CONTRIBUTOR_LICENSE.md'
@@ -34,3 +36,6 @@ jobs:
       - name: Sourcehawk Scan
         uses: optum/sourcehawk-scan-github-action@main
         continue-on-error: true
+      - name: Run Tests
+        shell: bash
+        run: ./test.sh

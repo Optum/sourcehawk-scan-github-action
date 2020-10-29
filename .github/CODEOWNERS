@@ -1,4 +1,3 @@
 # https://help.github.com/articles/about-codeowners/
-# https://github.com/blog/2392-introducing-code-owners
 
-* @sourcehawk
+* @Optum/sourcehawk

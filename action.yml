@@ -8,7 +8,7 @@ inputs:
   config-file:
     description: 'Configuration File'
     required: false
-    default: 'sourcehawk.yml'
+    default: 'sh.yml'
   output-format:
     description: 'Output format'
     required: false

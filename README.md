@@ -96,3 +96,18 @@ jobs:
           name: sourcehawk
           path: sourcehawk-scan-results.json
 ```
+
+## License
+
+The `Dockerfile`, shell scripts, and documentation in the github action are released with the 
+[Apache 2.0](https://github.com/Optum/sourcehawk-scan-github-action/blob/main/LICENSE) license.
+
+## Contributing
+
+Please read our [CONTRIBUTING.md](https://github.com/Optum/sourcehawk-scan-github-action/blob/main/CONTRIBUTING.md) for guidelines on contributing to this github action.
+
+### Testing Locally
+
+```sh
+./test.sh
+```
