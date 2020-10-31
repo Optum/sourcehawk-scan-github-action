@@ -2,6 +2,9 @@ Sourcehawk Scan Github Action
 -----------------------------
 
 ![Latest Version](https://img.shields.io/github/v/tag/optum/sourcehawk-scan-github-action?label=version&sort=semver) 
+[![Build Status](https://github.com/optum/sourcehawk-scan-github-action/workflows/CI/badge.svg)](https://github.com/optum/sourcehawk-scan-github-action/actions) 
+[![Sourcehawk Scan](https://github.com/optum/sourcehawk-scan-github-action/workflows/Sourcehawk%20Scan/badge.svg)](https://github.com/optum/sourcehawk-scan-github-action/actions)
+
 
 This action runs a `sourcehawk` scan on the repository source code.
 

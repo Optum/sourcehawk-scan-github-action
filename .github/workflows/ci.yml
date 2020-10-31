@@ -33,9 +33,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Sourcehawk Scan
-        uses: optum/sourcehawk-scan-github-action@main
-        continue-on-error: true
       - name: Run Tests
         shell: bash
         run: ./test.sh
