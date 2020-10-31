@@ -20,7 +20,7 @@ inputs:
   fail-build:
     description: 'Whether or not to fail the build on scan failure'
     required: false
-    default: 'false'
+    default: 'true'
 outputs:
   scan-passed:
     description: '"true" if scan passed, "false" otherwise'

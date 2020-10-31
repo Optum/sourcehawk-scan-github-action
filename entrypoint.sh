@@ -20,7 +20,7 @@ REPOSITORY_ROOT=${1:-'.'}
 CONFIG_FILE=${2:-'sourcehawk.yml'}
 OUTPUT_FORMAT=${3:-TEXT}
 OUTPUT_FILE=${4:-'sourcehawk-scan-results.txt'}
-FAIL_BUILD=${5:-false}
+FAIL_BUILD=${5:-true}
 
 PASSED=false
 
