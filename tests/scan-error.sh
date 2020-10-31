@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 
-set -e
-
 echo "Running test: Scan Error"
 echo "-------------------------"
 
 ROOT="$(dirname "$(dirname "$(readlink -fm "$0")")")"
 
 OUTPUT=$(docker run -v "$ROOT:/github/workspace" sourcehawk-scan-github-action:test "tests/scan-error")
+SCAN_EXIT_CODE=$?
+
+if [[ $SCAN_EXIT_CODE -eq 1 ]]; then
+  echo " > SCAN_EXIT_CODE: Correct"
+else
+  echo " > SCAN_EXIT_CODE: Incorrect, expected 1, got $SCAN_EXIT_CODE"
+fi
 
 FIRST_LINE=$(echo "$OUTPUT" | head -1 | sed -e 's/[[:space:]]*$//')
 EXPECTED="Scan resulted in failure. Error(s): 1, Warning(s): 0"

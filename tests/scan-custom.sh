@@ -8,6 +8,13 @@ echo "-------------------------"
 ROOT="$(dirname "$(dirname "$(readlink -fm "$0")")")"
 
 OUTPUT=$(docker run -v "$ROOT:/github/workspace" sourcehawk-scan-github-action:test "tests/scan-custom" "sh.yml" "JSON" "sourcehawk-scan-results.json")
+SCAN_EXIT_CODE=$?
+
+if [[ $SCAN_EXIT_CODE -eq 0 ]]; then
+  echo " > SCAN_EXIT_CODE: Correct"
+else
+  echo " > SCAN_EXIT_CODE: Incorrect, expected 0, got $SCAN_EXIT_CODE"
+fi
 
 FIRST_LINE=$(echo "$OUTPUT" | head -1 | sed -e 's/[[:space:]]*$//')
 EXPECTED='{"passed":true,"errorCount":0,"warningCount":0,"messages":{},"formattedMessages":[]}'
