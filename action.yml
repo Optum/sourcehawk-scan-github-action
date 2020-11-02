@@ -1,5 +1,8 @@
 name: 'Sourcehawk Scan'
 description: 'Run a sourcehawk scan on the code base'
+branding:
+  icon: 'terminal'
+  color: 'blue'
 inputs:
   repository-root:
     description: 'Repository Root'
@@ -17,6 +20,10 @@ inputs:
     description: 'Output file to write results to'
     required: false
     default: 'sourcehawk-scan-results.txt'
+  fail-on-warnings:
+    description: 'Whether or not to fail the scan if only warnings found'
+    required: false
+    default: 'false'
   fail-build:
     description: 'Whether or not to fail the build on scan failure'
     required: false
@@ -32,5 +39,6 @@ runs:
     - ${{ inputs.config-file }}
     - ${{ inputs.output-format }}
     - ${{ inputs.output-file }}
+    - ${{ inputs.fail-on-warnings }}
     - ${{ inputs.fail-build }}
 

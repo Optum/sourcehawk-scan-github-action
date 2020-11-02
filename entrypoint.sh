@@ -20,12 +20,17 @@ REPOSITORY_ROOT=${1:-'.'}
 CONFIG_FILE=${2:-'sourcehawk.yml'}
 OUTPUT_FORMAT=${3:-TEXT}
 OUTPUT_FILE=${4:-'sourcehawk-scan-results.txt'}
-FAIL_BUILD=${5:-true}
+FAIL_ON_WARNINGS=${5:-false}
+FAIL_BUILD=${6:-true}
 
 PASSED=false
 
 # Run the scan and output the results
-sourcehawk scan --verbosity MEDIUM --config-file "$CONFIG_FILE" --output-format "$OUTPUT_FORMAT" "$REPOSITORY_ROOT" > "$OUTPUT_FILE"
+if [ "$FAIL_ON_WARNINGS" = "true" ]; then
+  sourcehawk scan --config-file "$CONFIG_FILE" --output-format "$OUTPUT_FORMAT" --fail-on-warnings "$REPOSITORY_ROOT" > "$OUTPUT_FILE"
+else
+  sourcehawk scan --config-file "$CONFIG_FILE" --output-format "$OUTPUT_FORMAT" "$REPOSITORY_ROOT" > "$OUTPUT_FILE"
+fi
 
 # Determine if scan passed
 if [ $? -eq 0 ]; then

@@ -36,6 +36,18 @@ The configuration file path
 
 **Default**: `sourcehawk-scan-results.txt`
 
+### `fail-on-warnings`
+
+Whether or not to fail the build on warnings
+
+**Default**: `false`
+
+### `fail-build`
+
+Whether or not to fail the build if the scan fails
+
+**Default**: `true`
+
 ## Outputs
 
 ### `scan-passed`
@@ -86,7 +98,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Run Sourcehawk Scan
         id: sourcehawk
-        uses: pptum/sourcehawk-scan-github-action@v1
+        uses: optum/sourcehawk-scan-github-action@v1
         with:
           output-format: JSON
           output-file: sourcehawk-scan-results.json

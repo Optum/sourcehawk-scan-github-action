@@ -1,38 +1,41 @@
 #!/usr/bin/env bash
 
-set -e
-
-echo "Running test: Scan Passed"
-echo "-------------------------"
-
-ROOT="$(dirname "$(dirname "$(readlink -fm "$0")")")"
-
-OUTPUT=$(docker run -v "$ROOT:/github/workspace" sourcehawk-scan-github-action:test "tests/scan-passed")
+OUTPUT=$(docker run -v "$1:/github/workspace" "$2" "tests/scan-passed")
 SCAN_EXIT_CODE=$?
 
+PASSED=()
+FAILED=()
+
+TEST_NAME="SCAN_EXIT_CODE"
 if [[ $SCAN_EXIT_CODE -eq 0 ]]; then
-  echo " > SCAN_EXIT_CODE: Correct"
+  echo " > $TEST_NAME: Correct"
+  PASSED+=("$TEST_NAME")
 else
-  echo " > SCAN_EXIT_CODE: Incorrect, expected 0, got $SCAN_EXIT_CODE"
+  echo " > $TEST_NAME: Incorrect, expected 0, got $SCAN_EXIT_CODE"
+  FAILED+=("$TEST_NAME")
 fi
 
+TEST_NAME="SCAN_RESULT_MESSAGE"
 FIRST_LINE=$(echo "$OUTPUT" | head -1 | sed -e 's/[[:space:]]*$//')
 EXPECTED="Scan passed without any errors"
 if [[ "$FIRST_LINE" = "$EXPECTED" ]]; then
-  echo " > SCAN_RESULT_MESSAGE: Correct"
+  echo " > $TEST_NAME: Correct"
+  PASSED+=("$TEST_NAME")
 else
-  echo " > SCAN_RESULT_MESSAGE: Missing or incorrect, found: [$FIRST_LINE], expected: [$EXPECTED]"
-  exit 1
+  echo " > $TEST_NAME: Missing or incorrect, found: [$FIRST_LINE], expected: [$EXPECTED]"
+  FAILED+=("$TEST_NAME")
 fi
 
+TEST_NAME="GITHUB_ACTION_OUTPUT"
 LAST_LINE=$(echo "$OUTPUT" | tail -1 | sed -e 's/[[:space:]]*$//')
 EXPECTED="::set-output name=scan-passed::true"
 if [[ "$LAST_LINE" = "$EXPECTED" ]]; then
-  echo " > GITHUB_ACTION_OUTPUT: Correct"
+  echo " > $TEST_NAME: Correct"
+  PASSED+=("$TEST_NAME")
 else
-  echo " > GITHUB_ACTION_OUTPUT: Missing scan-passed(true) output"
-  exit 1
+  echo " > $TEST_NAME: Missing scan-passed(true) output"
+  FAILED+=("$TEST_NAME")
 fi
 
-echo "Test Passed"
-echo "-------------------------"
+echo " >> Tests: $((${#PASSED[@]}+${#FAILED[@]})), Passed: ${#PASSED[@]}, Failed: ${#FAILED[@]}"
+exit ${#FAILED[@]}

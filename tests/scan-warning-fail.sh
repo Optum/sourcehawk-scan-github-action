@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
-OUTPUT=$(docker run -v "$1:/github/workspace" "$2" "tests/scan-failed")
+OUTPUT=$(docker run -v "$1:/github/workspace" "$2" "tests/scan-warning-fail" "sourcehawk.yml" "TEXT" "sourcehawk-scan-results.txt" "true")
 SCAN_EXIT_CODE=$?
 
-EST_NAME="SCAN_EXIT_CODE"
+PASSED=()
+FAILED=()
+
+TEST_NAME="SCAN_EXIT_CODE"
 if [[ $SCAN_EXIT_CODE -eq 1 ]]; then
   echo " > $TEST_NAME: Correct"
   PASSED+=("$TEST_NAME")
@@ -14,7 +17,7 @@ fi
 
 TEST_NAME="SCAN_RESULT_MESSAGE"
 FIRST_LINE=$(echo "$OUTPUT" | head -1 | sed -e 's/[[:space:]]*$//')
-EXPECTED="Scan resulted in failure. Error(s): 1, Warning(s): 0"
+EXPECTED="Scan resulted in failure. Error(s): 0, Warning(s): 1"
 if [[ "$FIRST_LINE" = "$EXPECTED" ]]; then
   echo " > $TEST_NAME: Correct"
   PASSED+=("$TEST_NAME")
@@ -25,7 +28,7 @@ fi
 
 TEST_NAME="SCAN_RESULT_ERROR"
 SECOND_LINE=$(echo "$OUTPUT" | tail -2 | head -1 | sed -e 's/[[:space:]]*$//')
-EXPECTED="[ERROR] foo.bar :: File not found"
+EXPECTED="[WARN]  foo.bar :: File not found"
 if [[ "$SECOND_LINE" = "$EXPECTED" ]]; then
   echo " > $TEST_NAME: Correct"
   PASSED+=("$TEST_NAME")
