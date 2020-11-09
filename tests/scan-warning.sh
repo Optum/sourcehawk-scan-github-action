@@ -19,7 +19,7 @@ fi
 
 TEST_NAME="SCAN_RESULT_MESSAGE"
 FIRST_LINE=$(echo "$OUTPUT" | head -1 | sed -e 's/[[:space:]]*$//')
-EXPECTED="Scan passed without any errors"
+EXPECTED="Scan passed. Errors: 0, Warning(s): 1"
 if [[ "$FIRST_LINE" = "$EXPECTED" ]]; then
   echo " > $TEST_NAME: Correct"
   PASSED+=("$TEST_NAME")

@@ -17,7 +17,7 @@ fi
 
 TEST_NAME="SCAN_RESULT_MESSAGE"
 FIRST_LINE=$(echo "$OUTPUT" | head -1 | sed -e 's/[[:space:]]*$//')
-EXPECTED='{"passed":true,"errorCount":0,"warningCount":0,"messages":{},"formattedMessages":[]}'
+EXPECTED='{"passed":true,"errorCount":0,"warningCount":0,"messages":{},"formattedMessages":[],"passedWithNoWarnings":true}'
 if [[ "$FIRST_LINE" = "$EXPECTED" ]]; then
   echo " > $TEST_NAME: Correct"
   PASSED+=("$TEST_NAME")
