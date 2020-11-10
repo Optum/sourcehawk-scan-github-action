@@ -1,5 +1,4 @@
-Sourcehawk Scan Github Action
------------------------------
+# Sourcehawk Scan Github Action
 
 ![Latest Version](https://img.shields.io/github/v/tag/optum/sourcehawk-scan-github-action?label=version&sort=semver) 
 [![Build Status](https://github.com/optum/sourcehawk-scan-github-action/workflows/CI/badge.svg)](https://github.com/optum/sourcehawk-scan-github-action/actions) 
@@ -63,12 +62,22 @@ The below example accepts all the defaults
 uses: optum/sourcehawk-scan-github-action@v1
 ```
 
+### Fail if Warnings Found
+Scan will be considered a failure, if warnings are found
+
+```yaml
+uses: optum/sourcehawk-scan-github-action@v1
+  with:
+    fail-on-warnings: true
+```
+
 ### Custom Configuration File
 Provide the location to a configuration file in a custom path
 
 ```yaml
 uses: optum/sourcehawk-scan-github-action@v1
-  config-file: .sourcehawk/config.yml
+  with:
+    config-file: .sourcehawk/config.yml
 ```
 
 ### JSON Output Format
@@ -76,8 +85,9 @@ Output the scan results in `JSON` format
 
 ```yaml
 uses: optum/sourcehawk-scan-github-action@v1
-  output-format: JSON
-  output-file: sourcehawk-scan-results.json
+  with:
+    output-format: JSON
+    output-file: sourcehawk-scan-results.json
 ```
 
 ## Example Workflow
