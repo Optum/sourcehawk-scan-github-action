@@ -38,7 +38,7 @@ The configuration file path
 
 ### `fail-on-warnings`
 
-Whether or not to fail the build on warnings
+Whether or not to fail the scan if only warnings exist
 
 **Default**: `false`
 
