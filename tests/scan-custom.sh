@@ -15,14 +15,34 @@ else
   FAILED+=("$TEST_NAME")
 fi
 
-TEST_NAME="SCAN_RESULT_MESSAGE"
-FIRST_LINE=$(echo "$OUTPUT" | head -1 | sed -e 's/[[:space:]]*$//')
-EXPECTED='{"passed":true,"errorCount":0,"warningCount":0,"messages":{},"formattedMessages":[],"passedWithNoWarnings":true}'
-if [[ "$FIRST_LINE" = "$EXPECTED" ]]; then
+TEST_NAME="SCAN_RESULT_JSON"
+OUTPUT_JSON="$(echo "$OUTPUT" | head -n -1 | sed 's/ *$//')"
+read -r -d '' EXPECTED_JSON << EOS
+{
+  "passedWithNoWarnings" : true,
+  "passed" : true,
+  "warningCount" : 0,
+  "messages" : { },
+  "errorCount" : 0,
+  "formattedMessages" : [ ]
+}
+EOS
+if [[ "$OUTPUT_JSON" == "$EXPECTED_JSON" ]]; then
   echo " > $TEST_NAME: Correct"
   PASSED+=("$TEST_NAME")
 else
-  echo " > $TEST_NAME: Missing or incorrect, found: [$FIRST_LINE], expected: [$EXPECTED]"
+  echo " > $TEST_NAME: Missing or incorrect, found: [$OUTPUT_JSON], expected: [$EXPECTED_JSON]"
+  FAILED+=("$TEST_NAME")
+fi
+
+TEST_NAME="GITHUB_ACTION_OUTPUT"
+LAST_LINE=$(echo "$OUTPUT" | tail -1 | sed -e 's/[[:space:]]*$//')
+EXPECTED="::set-output name=scan-passed::true"
+if [[ "$LAST_LINE" = "$EXPECTED" ]]; then
+  echo " > $TEST_NAME: Correct"
+  PASSED+=("$TEST_NAME")
+else
+  echo " > $TEST_NAME: Missing scan-passed(true) output"
   FAILED+=("$TEST_NAME")
 fi
 
@@ -32,6 +52,16 @@ if [[ -f "sourcehawk-scan-results.json" ]]; then
   PASSED+=("$TEST_NAME")
 else
   echo " > $TEST_NAME: Missing result file at path: sourcehawk-scan-results.json"
+  FAILED+=("$TEST_NAME")
+fi
+
+TEST_NAME="RESULT_FILE_JSON"
+OUTPUT_JSON_FILE="$(sed 's/ *$//' "sourcehawk-scan-results.json")"
+if [[ "$OUTPUT_JSON_FILE" == "$EXPECTED_JSON" ]]; then
+  echo " > $TEST_NAME: Correct"
+  PASSED+=("$TEST_NAME")
+else
+  echo " > $TEST_NAME: Incorrect result file JSON, found: [$OUTPUT_JSON_FILE], expected: [$EXPECTED_JSON]"
   FAILED+=("$TEST_NAME")
 fi
 

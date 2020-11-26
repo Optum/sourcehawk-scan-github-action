@@ -13,29 +13,30 @@ TESTS=( "scan-passed" "scan-failed" "scan-error" "scan-custom" "scan-warning" "s
 PASSED=()
 FAILED=()
 
-echo "Running Tests"
+echo " "
+echo -e "\e[1mRunning Github Action Tests\e[0m"
 echo "----------------------------------------"
 
 # Execute Tests
 for test in "${TESTS[@]}"; do
 
-  echo "[TEST]: ${test}"
+  echo -e "\e[36m${test}\e[0m"
   echo "----------------------------------------"
 
   if ./tests/"${test}".sh "$ROOT" "$TEST_IMAGE"; then
-    echo " >> PASSED"
+    echo -e " >> \e[92mPASSED\e[0m"
     PASSED+=("${test}")
   else
-    echo " >> [ERROR] FAILED"
+    echo -e " >> \e[31mFAILED\e[0m"
     FAILED+=("${test}")
   fi
   echo "----------------------------------------"
 
 done
 
-echo "Tests Completed"
+echo -e "\e[1mTests Completed\e[0m"
 echo -n " >> Result: "
-[ ${#FAILED[@]} -gt 0 ] && echo "FAILURE " || echo "SUCCESS"
+[ ${#FAILED[@]} -gt 0 ] && echo -e "\e[31mFAILURE\e[0m " || echo -e "\e[92mSUCCESS\e[0m"
 echo " >> Tests: $((${#PASSED[@]}+${#FAILED[@]})), Passed: ${#PASSED[@]}, Failed: ${#FAILED[@]}"
 echo "----------------------------------------"
 exit ${#FAILED[@]}

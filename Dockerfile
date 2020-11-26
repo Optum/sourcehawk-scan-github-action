@@ -1,7 +1,7 @@
 # Github Docs: https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/dockerfile-support-for-github-actions
 
 # Small Linux based image with sourcehawk installed
-FROM optumopensource/sourcehawk:0.4.3
+FROM optumopensource/sourcehawk:0.4.4
 
 # Need root to write
 USER root
@@ -12,5 +12,5 @@ WORKDIR /github/workspace
 # Copy Entrypoint script into image
 COPY entrypoint.sh /entrypoint.sh
 
-# Execute the entrypoint
+# Execute the entrypointb
 ENTRYPOINT ["/entrypoint.sh"]
