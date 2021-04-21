@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-OUTPUT=$(docker run -v "$1:/github/workspace" "$2" "tests/scan-custom" "sh.yml" "JSON" "sourcehawk-scan-results.json")
+OUTPUT=$(docker run -v "$1:/github/workspace" "$2" "tests/scan-custom" "sh.yml" "JSON" "sourcehawk-scan-results.json" false true "primary")
 SCAN_EXIT_CODE=$?
 
 PASSED=()
@@ -19,11 +19,11 @@ TEST_NAME="SCAN_RESULT_JSON"
 OUTPUT_JSON="$(echo "$OUTPUT" | head -n -1 | sed 's/ *$//')"
 read -r -d '' EXPECTED_JSON << EOS
 {
-  "passedWithNoWarnings" : true,
-  "passed" : true,
-  "warningCount" : 0,
-  "messages" : { },
   "errorCount" : 0,
+  "passed" : true,
+  "messages" : { },
+  "passedWithNoWarnings" : true,
+  "warningCount" : 0,
   "formattedMessages" : [ ]
 }
 EOS

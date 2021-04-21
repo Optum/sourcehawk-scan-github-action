@@ -22,20 +22,19 @@ OUTPUT_FORMAT=${3:-TEXT}
 OUTPUT_FILE=${4:-'sourcehawk-scan-results.txt'}
 FAIL_ON_WARNINGS=${5:-false}
 FAIL_BUILD=${6:-true}
+TAGS=$7
 
+# Global variables
 PASSED=false
 
-# Run the scan and output the results
-if [ "$FAIL_ON_WARNINGS" = "true" ]; then
-  sourcehawk scan --config-file "$CONFIG_FILE" --output-format "$OUTPUT_FORMAT" --fail-on-warnings "$REPOSITORY_ROOT" > "$OUTPUT_FILE"
-else
-  sourcehawk scan --config-file "$CONFIG_FILE" --output-format "$OUTPUT_FORMAT" "$REPOSITORY_ROOT" > "$OUTPUT_FILE"
-fi
+# Build command options
+set -- -c "$CONFIG_FILE" -f "$OUTPUT_FORMAT"
+[ "$FAIL_ON_WARNINGS" = true ] && set -- "$@" -w
+[ -n "$TAGS" ] && set -- "$@" -t "$TAGS"
+set -- "$@" "$REPOSITORY_ROOT"
 
-# Determine if scan passed
-if [ $? -eq 0 ]; then
-  PASSED=true
-fi
+# Run the scan and output the results
+sourcehawk scan "$@" > "$OUTPUT_FILE" && PASSED=true
 
 # Show the scan results
 cat "$OUTPUT_FILE"
@@ -44,11 +43,7 @@ cat "$OUTPUT_FILE"
 echo "::set-output name=scan-passed::$PASSED"
 
 # Exit cleanly if scan passes
-if [ "$PASSED" = "true" ]; then
-  exit 0
-fi
+[ "$PASSED" = "true" ] && exit 0
 
 # Exit in error if configured to fail build
-if [ "$FAIL_BUILD" = "true" ]; then
-  exit 1
-fi
+[ "$FAIL_BUILD" = "true" ] && exit 1

@@ -1,7 +1,7 @@
 # Github Docs: https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/dockerfile-support-for-github-actions
 
 # Small Linux based image with sourcehawk installed
-FROM optumopensource/sourcehawk:0.4.4
+FROM optumopensource/sourcehawk:0.6.0
 
 # Need root to write
 USER root

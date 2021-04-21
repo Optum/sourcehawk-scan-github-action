@@ -28,6 +28,9 @@ inputs:
     description: 'Whether or not to fail the build on scan failure'
     required: false
     default: 'true'
+  tags:
+    description: 'Tags to filter the scan on'
+    required: false
 outputs:
   scan-passed:
     description: '"true" if scan passed, "false" otherwise'
@@ -41,4 +44,5 @@ runs:
     - ${{ inputs.output-file }}
     - ${{ inputs.fail-on-warnings }}
     - ${{ inputs.fail-build }}
+    - ${{ inputs.tags }}
 

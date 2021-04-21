@@ -1,4 +1,12 @@
 
 file-protocols:
   - name: File
+    tags:
+      - file
+      - primary
     repository-path: file.txt
+  - name: File
+    tags:
+      - file
+      - secondary
+    repository-path: file2.txt

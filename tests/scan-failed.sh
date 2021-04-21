@@ -24,7 +24,7 @@ else
 fi
 
 TEST_NAME="SCAN_RESULT_ERROR"
-SECOND_LINE=$(echo "$OUTPUT" | tail -2 | head -1 | sed -e 's/[[:space:]]*$//')
+SECOND_LINE=$(echo "$OUTPUT" | tail -2 | head -1 | sed -e 's/[[:space:]]*$//' | sed 's/\x1b\[[0-9;]*m//g')
 EXPECTED="[ERROR] foo.bar :: File not found"
 if [[ "$SECOND_LINE" = "$EXPECTED" ]]; then
   echo " > $TEST_NAME: Correct"
